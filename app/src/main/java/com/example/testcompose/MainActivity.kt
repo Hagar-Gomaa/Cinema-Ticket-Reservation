@@ -13,12 +13,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             setHeader()
         }
-    }
-
 }
 
 @Composable
 @Preview(showSystemUi = true)
 fun Preview() {
     setHeader()
-}
+}}
