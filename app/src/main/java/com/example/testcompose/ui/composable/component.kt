@@ -2,7 +2,9 @@ package com.example.testcompose.ui.composable
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,18 +16,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -40,20 +41,21 @@ import com.example.testcompose.ui.theme.Orange
 import com.example.testcompose.ui.theme.c1
 import com.example.testcompose.ui.theme.c2
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun setHeader() {
     val imageList = listOf(
-        R.drawable.rectangle,
         R.drawable.image,
         R.drawable.rectangle,
         R.drawable.image,
+        R.drawable.rectangle,
     )
 
-    val currentPage by remember { mutableStateOf(0) }
+    val pagerState = rememberPagerState(initialPage = 1) { imageList.size }
 
     Column() {
         Box(modifier = Modifier.fillMaxWidth()) {
-            GradientCanvas()
+            BluredImage(imageList[1])
             Column(modifier = Modifier) {
 
                 Row(
@@ -69,7 +71,8 @@ fun setHeader() {
                     )
                     ButtonItem(text = "Coming Soon",color =  Color.Transparent,borderColor = Color.White.copy(alpha = .3f))
                 }
-                MoviesViewPager(imageList = imageList, currentPage = currentPage)
+
+               MoviesPager(imageList = imageList, pagerState = pagerState)
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp), verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.Center) {
@@ -126,25 +129,28 @@ fun TextItem(modifier: Modifier = Modifier, text: String, fontSize: TextUnit) {
 }
 
 @Composable
-fun GradientCanvas(
-    height: Dp = 293.dp
-) {
+fun BluredImage(imageBlur: Int) {
+    Image(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.50f)
+        .blur(40.dp),
+        contentScale = ContentScale.Crop,
+        painter = painterResource(imageBlur),
+        contentDescription = ""
+    )
     Box(
         modifier = Modifier
-            .height(height)
             .fillMaxWidth()
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize())
-        {
-            val gradient = Brush.horizontalGradient(
-                colors = listOf(c1, c2),
-                startX = 0f,
-                endX = size.width
+            .fillMaxHeight(0.50f)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Transparent, Color.Transparent, Color.White
+                    )
+                )
             )
-            drawRect(brush = gradient)
-        }
-    }
-
+    )
 }
 
 @Composable
