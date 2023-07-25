@@ -41,67 +41,6 @@ import com.example.testcompose.ui.theme.Orange
 import com.example.testcompose.ui.theme.c1
 import com.example.testcompose.ui.theme.c2
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun setHeader() {
-    val imageList = listOf(
-        R.drawable.image,
-        R.drawable.rectangle,
-        R.drawable.image,
-        R.drawable.rectangle,
-    )
-
-    val pagerState = rememberPagerState(initialPage = 1) { imageList.size }
-
-    Column() {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            BluredImage(imageList[1])
-            Column(modifier = Modifier) {
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 48.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    ButtonItem(text = "Now Showing", color = Orange, borderColor =  Orange)
-                    Spacer(
-                        modifier = Modifier
-                            .width(8.dp)
-                    )
-                    ButtonItem(text = "Coming Soon",color =  Color.Transparent,borderColor = Color.White.copy(alpha = .3f))
-                }
-
-               MoviesPager(imageList = imageList, pagerState = pagerState)
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp), verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.Center) {
-                    Image(
-                        painterResource(id = R.drawable.ic_access_time),
-                        contentDescription = null
-                    )
-                    TextItem(text = "2h 23m", fontSize = 12.sp)
-                }
-                TextItem(modifier = Modifier.padding(top = 16.dp, bottom = 24.dp),text = "Fantastic Beasts: The Secrets of Dumbledore", fontSize = 24.sp)
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(all = 8.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Button(onClick = {}, modifier = Modifier
-                        .height(29.dp)
-                        , colors = ButtonDefaults.buttonColors(Color.Transparent), border =  BorderStroke( 1.dp,Color.Black.copy(alpha = .2f))){
-                        Text(modifier = Modifier, fontSize = 12.sp, text = "Fantasy", color = Color.Black )
-                    }
-
-                    Button(onClick = {}, modifier = Modifier
-                        .height(29.dp)
-                        , colors = ButtonDefaults.buttonColors(Color.Transparent), border =  BorderStroke( 1.dp,Color.Black.copy(alpha = .2f))){
-                        Text(modifier = Modifier, fontSize = 12.sp, text = "Adventure", color = Color.Black )
-                    }                }
-            }
-        }
-    }
-}
 
 
 @Composable
@@ -153,8 +92,3 @@ fun BluredImage(imageBlur: Int) {
     )
 }
 
-@Composable
-@Preview(showSystemUi = true)
-fun Preview() {
-    setHeader()
-}
